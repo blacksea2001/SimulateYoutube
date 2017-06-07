@@ -10,9 +10,9 @@ import Foundation
 import SwiftyJSON
 
 enum ApiError: Error {
-    case failedResponse(message: String)
-    case serviceError
+    case failedResponse(String)
     case unauthorized
+    case unknowError(Error)
 }
 
 enum Result<T> {

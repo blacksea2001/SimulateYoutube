@@ -82,12 +82,12 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     func showControllerForSettings(_ setting: Setting) {
-        let dummySettingsViewController = UIViewController()
-        dummySettingsViewController.view.backgroundColor = UIColor.white
-        dummySettingsViewController.navigationItem.title = setting.name.rawValue
+        let settingsViewController = UIViewController()
+        settingsViewController.view.backgroundColor = UIColor.white
+        settingsViewController.navigationItem.title = setting.name.rawValue
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        navigationController?.pushViewController(dummySettingsViewController, animated: true)
+        navigationController?.pushViewController(settingsViewController, animated: true)
     }
     
     

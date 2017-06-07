@@ -9,6 +9,9 @@
 import UIKit
 import SwiftyJSON
 import ObjectMapper
+import Alamofire
+
+typealias ApiResponse = (Result<Any>) -> ()
 
 class ApiService: NSObject {
     static let sharedInstance = ApiService()
@@ -17,44 +20,52 @@ class ApiService: NSObject {
     
     let baseUrl = "https://s3-us-west-2.amazonaws.com/youtubeassets"
     
-    func fetchVideos(_ completion: @escaping ([Video]) -> ()) {
+    func fetchVideos(_ completion: @escaping ApiResponse) {
         fetchFeedForUrlString("\(baseUrl)/home_num_likes.json", completion: completion)
-        
-//        fetchFeedForUrlString("\(baseUrl)/home_num_likes.json") { (videos) in
-//            completion(videos)
-//        }
     }
     
-    func fetchTrendingFeed(_ completion: @escaping ([Video]) -> ()) {
+    func fetchTrendingFeed(_ completion: @escaping ApiResponse) {
         fetchFeedForUrlString("\(baseUrl)/trending.json", completion: completion)
     }
     
-    func fetchSubscriptionFeed(_ completion: @escaping ([Video]) -> ()) {
+    func fetchSubscriptionFeed(_ completion: @escaping ApiResponse) {
         fetchFeedForUrlString("\(baseUrl)/subscriptions.json", completion: completion)
     }
     
-    func fetchFeedForUrlString(_ urlString: String, completion: @escaping ([Video]) -> ()) {
+    func fetchFeedForUrlString(_ urlString: String, completion: @escaping ApiResponse) {
         let url = URL(string: urlString)
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+        Alamofire.request(url!).responseJSON { (response) in
             
-            if let _ = error {
-                return
+            self.logger.log(logLevel: .debug, "\(response)")
+            
+            if let error = response.error {
+                completion(.failure(.unknowError(error)))
             }
             
-            var videos = [Video]()
-            
-            let json = JSON(data: data!).rawString()
-            videos = Mapper<Video>().mapArray(JSONString: json!)!
-            self.logger.log(logLevel: .debug, "\(String(describing: videos))")
-            
-            DispatchQueue.main.async {
-                completion(videos)
+            if let statusCode = response.response?.statusCode {
+                if statusCode == 401 {
+                    completion(.failure(.unauthorized))
+                }
             }
-        }.resume()
+            
+            if response.result.isSuccess {
+                let json: JSON = JSON(data: response.data!)
+                DispatchQueue.main.async {
+                    
+                    let videos = Mapper<Video>().mapArray(JSONString: json.rawString()!)
+                    completion(.success(videos!))
+                    
+//                    if json["Success"].boolValue == true {
+//                        let returnArray = Mapper<Video>().mapArray(JSONString: rawJson!)
+//                        completion(.success(videos))
+//                    } else {
+//                        let message = json["Message"].rawString()
+//                        completion(.failure(.failedResponse(message: message!)))
+//                    }
+                }
+            }
+        }
     }
-    
-    
-    
     
     
 }

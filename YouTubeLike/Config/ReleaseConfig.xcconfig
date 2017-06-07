@@ -1,0 +1,14 @@
+//
+//  ReleaseConfig.xcconfig
+//  SinoCloud
+//
+//  Created by Wesley on 2017/5/4.
+//  Copyright © 2017年 SinoPac. All rights reserved.
+//
+
+#include "CommonConfig.xcconfig"
+
+#include "Pods/Target Support Files/Pods-SinoCloud/Pods-SinoCloud.release.xcconfig"
+
+APP_DISPLAY_NAME = 永豐雲
+CONFIG_FLAG = RELEASE

@@ -7,8 +7,9 @@ target 'YouTubeLike' do
 
   # Pods for YouTubeLike
   pod 'SwiftyJSON'  
-  pod ‘ObjectMapper’
-
+  pod 'ObjectMapper'
+  pod 'Alamofire'
+  
 
   target 'YouTubeLikeTests' do
     inherit! :search_paths
