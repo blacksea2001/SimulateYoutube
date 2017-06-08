@@ -8,7 +8,7 @@
 
 #include "CommonConfig.xcconfig"
 
-#include "Pods/Target Support Files/Pods-SinoCloud/Pods-SinoCloud.debug.xcconfig"
+#include "Pods/Target Support Files/Pods-YouTubeLike/Pods-YouTubeLike.debug.xcconfig"
 
-APP_DISPLAY_NAME = 永豐雲SIT
+APP_DISPLAY_NAME = YouTubeSIT
 CONFIG_FLAG = DEBUG

@@ -18,7 +18,7 @@ class ApiService: NSObject {
     
     let logger: Logger = PrintLogger(minimumLogLevel: .verbose)
     
-    let baseUrl = "https://s3-us-west-2.amazonaws.com/youtubeassets"
+    let baseUrl = AppConfig.apiServerURL
     
     func fetchVideos(_ completion: @escaping ApiResponse) {
         fetchFeedForUrlString("\(baseUrl)/home_num_likes.json", completion: completion)
