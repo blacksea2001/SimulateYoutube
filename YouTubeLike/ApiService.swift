@@ -35,11 +35,12 @@ class ApiService: NSObject {
     func fetchFeedForUrlString(_ urlString: String, completion: @escaping ApiResponse) {
         let url = URL(string: urlString)
         Alamofire.request(url!).responseJSON { (response) in
-            
+                
             self.logger.log(logLevel: .debug, "\(response)")
             
             if let error = response.error {
                 completion(.failure(.unknowError(error)))
+                return
             }
             
             if let statusCode = response.response?.statusCode {

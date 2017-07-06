@@ -29,8 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         
-        
-        application.statusBarStyle = .lightContent
+        UIApplication.shared.statusBarStyle = .lightContent
+        //application.statusBarStyle = .lightContent
         
         // There is no real property that sets the background color for the status bar,
         // so we need to add it manually ourselves.
